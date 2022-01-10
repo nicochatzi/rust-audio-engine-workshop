@@ -1,0 +1,13 @@
+target/
+node_modules/
+coverage/
+build/
+dist/
+out/
+.vscode/
+*.pycache
+Cargo.lock
+package-lock.json
+.DS_Store
+*.env*
+*.log*

@@ -1,0 +1,6 @@
+[submodule "vst_plugin/lib/googletest"]
+	path = vst_plugin/lib/googletest
+	url = https://github.com/google/googletest
+[submodule "vst_plugin/lib/juce"]
+	path = vst_plugin/lib/juce
+	url = https://github.com/juce-framework/JUCE

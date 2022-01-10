@@ -1,0 +1,9 @@
+{
+  "name": "slides",
+  "scripts": {
+    "build": "node src/build.js"
+  },
+  "dependencies": {
+    "@marp-team/marp-cli": "^1.5.0"
+  }
+}
