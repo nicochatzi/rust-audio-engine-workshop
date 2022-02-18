@@ -1,4 +1,3 @@
-use cpal::traits::DeviceTrait;
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
@@ -13,21 +12,9 @@ enum App {
         #[structopt(short, long, default_value = "2")]
         seconds: u64,
     },
-    // WORKSHOP QUESTION
     /// Render a fixed amount of samples and print to terminal
-    Render {
-        /// Number of samples to render
-        #[structopt(long, default_value = "64")]
-        samples: usize,
-        /// Number of channels to render
-        #[structopt(long, default_value = "2")]
-        channels: usize,
-        /// Sample rate to render at
-        #[structopt(long, default_value = "48000")]
-        sample_rate: usize,
-    },
-    // WORKSHOP QUESTION
-    /// Print audio and midi configuration
+    Render,
+    /// Print audio device configuration
     Info,
 }
 
@@ -38,26 +25,19 @@ enum App {
 // std::error::Error, which should cover many cases.
 fn main() -> anyhow::Result<()> {
     match App::from_args() {
-        App::Play { seconds } => audio_engine::play(seconds),
-        App::Render {
-            samples,
-            channels,
-            sample_rate,
-        } => {
-            let buffer = audio_engine::render(samples, channels, sample_rate);
-            for frame in buffer.chunks(channels) {
-                for sample in frame {
-                    print!("{},\t", sample);
-                }
-                println!();
-            }
-            Ok(())
+        App::Play { seconds } => audio_engine::cmd::play(seconds),
+        App::Render => {
+            todo!(
+                r#"
+params:
+    number of samples,  defaults to 64
+    number of channels, defaults to 2
+    sample rate,        defaults to 48000
+            "#
+            )
         }
         App::Info => {
-            let (device, supported_config) = audio_engine::get_audio_device_and_config()?;
-            println!("Output device: {}", device.name()?);
-            println!("Output config: {:?}", supported_config);
-            Ok(())
+            todo!("print the audio device config")
         }
     }
 }

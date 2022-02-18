@@ -47,6 +47,7 @@ pub(crate) fn create_audio_engine_stream() -> anyhow::Result<cpal::Stream> {
     let stream = device.build_output_stream(
         &config,
         // Audio callback receives a mutable audio buffer to process
+        // Any variable in the outer scope will be moved into this closure.
         move |buf: &mut [f32], _: &cpal::OutputCallbackInfo| engine.render(buf),
         // Error callback receives a cpal::StreamError
         |error| eprintln!("an error occurred on stream: {}", error),
@@ -67,31 +68,16 @@ pub fn play(num_seconds: u64) -> anyhow::Result<()> {
     Ok(())
 }
 
-// WORKSHOP QUESTION
 /// Render a block of audio at a fixed frequency and amplitude
 pub fn render(num_samples: usize, channels: usize, sample_rate: usize) -> Vec<f32> {
-    let mut engine = AudioEngine::new(sample_rate as u32, channels as u16);
-
-    engine.set_freq(440.);
-    engine.set_amp(0.7);
-
-    let mut buffer = vec![0.; channels * num_samples];
-    engine.render(&mut buffer);
-
-    buffer
+    todo!()
 }
 
-// WORKSHOP QUESTION
 /// pauses the thread for N seconds
 /// if N==0 it loops forever.
 fn wait(num_seconds: u64) {
-    let sleep = |s| std::thread::sleep(std::time::Duration::from_secs(s));
-
-    if num_seconds == 0 {
-        loop {
-            sleep(1);
-        }
-    }
-
-    sleep(num_seconds);
+    todo!(r#"
+        hint: use can use std::thread::sleep() since
+        the audio processing is happening on another thread
+    "#)
 }

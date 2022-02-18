@@ -1,10 +1,6 @@
-mod bindings;
-mod engine;
+#![allow(dead_code)]
+#![allow(unused_variables)]
+#![allow(unused_mut)]
 
-#[cfg(feature = "cpal")]
-mod cmd;
-
-#[cfg(feature = "cpal")]
-pub use cmd::*;
-
-pub use engine::*;
+pub mod engine;
+pub mod cmd;
