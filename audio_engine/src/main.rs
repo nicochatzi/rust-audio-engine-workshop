@@ -13,6 +13,7 @@ enum App {
         #[structopt(short, long, default_value = "2")]
         seconds: u64,
     },
+    // WORKSHOP QUESTION
     /// Render a fixed amount of samples and print to terminal
     Render {
         /// Number of samples to render
@@ -25,6 +26,7 @@ enum App {
         #[structopt(long, default_value = "48000")]
         sample_rate: usize,
     },
+    // WORKSHOP QUESTION
     /// Print audio and midi configuration
     Info,
 }

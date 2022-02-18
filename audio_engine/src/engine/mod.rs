@@ -35,7 +35,8 @@ impl AudioEngine {
     }
 
     pub fn set_freq(&mut self, freq: f32) {
-        self.phase_inc = 2.0 * core::f32::consts::PI * freq * self.sample_time;
+        const TWO_PI: f32 = 2. * core::f32::consts::PI;
+        self.phase_inc = TWO_PI * freq * self.sample_time;
     }
 
     pub fn set_amp(&mut self, amp: f32) {
@@ -56,5 +57,70 @@ impl AudioEngine {
                 *sample = output;
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    // WORKSHOP QUESTION
+    fn defaults_to_rendering_silence() {
+        let mut engine = AudioEngine::new(100, 1);
+        let mut buffer = vec![1.; 64];
+        engine.render(&mut buffer);
+        assert!(buffer.iter().all(|x| *x == 0.));
+    }
+
+    // WORKSHOP STRETCH QUESTION
+    fn rms(buffer: &[f32]) -> f32 {
+        (buffer.iter().fold(0., |acc, x| acc + x * x) / buffer.len() as f32).sqrt()
+    }
+
+    fn sine_rms(amp: f32) -> f32 {
+        amp / 2_f32.sqrt()
+    }
+
+    fn tri_rms(amp: f32) -> f32 {
+        amp / 3_f32.sqrt()
+    }
+
+    fn sqr_rms(amp: f32) -> f32 {
+        amp
+    }
+
+    // WORKSHOP QUESTION
+    fn expect_rms(buffer: &[f32], expected_rms: f32) {
+        const ERROR: f32 = 0.001;
+        let actual_rms = rms(&buffer);
+
+        // one-line option
+        assert!((actual_rms - expected_rms).abs() < ERROR);
+
+        // two asserts, but with print lhs/rhs values on failure
+        assert!(actual_rms > expected_rms - ERROR);
+        assert!(actual_rms > expected_rms - ERROR);
+    }
+
+    #[test]
+    fn can_control_level_with_amp_param() {
+        const BUFFER_SIZE: usize = 64;
+        const SAMPLE_RATE: usize = BUFFER_SIZE;
+
+        let mut buffer = vec![0.; BUFFER_SIZE];
+        let mut engine = AudioEngine::new(SAMPLE_RATE as u32, 1);
+        engine.set_freq(1.);
+
+        // WORKSHOP QUESTION
+        engine.set_amp(0.);
+        engine.render(&mut buffer);
+        assert!(buffer.iter().all(|x| *x == 0.));
+
+        // WORKSHOP QUESTION
+        const AMP: f32 = 1.;
+        engine.set_amp(AMP);
+        engine.render(&mut buffer);
+        expect_rms(&buffer, sine_rms(AMP));
     }
 }

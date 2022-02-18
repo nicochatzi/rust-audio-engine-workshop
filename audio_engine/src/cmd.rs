@@ -8,23 +8,10 @@ use crate::engine::*;
 
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 
-/// Render a block of audio samples
-pub fn render(num_samples: usize, channels: usize, sample_rate: usize) -> Vec<f32> {
-    let mut engine = AudioEngine::new(sample_rate as u32, channels as u16);
-
-    // TODO: load a patch file that sets the params to render with
-    engine.set_freq(1720.);
-    engine.set_amp(0.7);
-
-    let mut buffer = vec![0.; channels * num_samples];
-    engine.render(&mut buffer);
-
-    buffer
-}
-
 /// Get the default audio device and configuration that
 /// will be used by the `play()` method.
-pub fn get_audio_device_and_config() -> anyhow::Result<(cpal::Device, cpal::SupportedStreamConfig)> {
+pub fn get_audio_device_and_config() -> anyhow::Result<(cpal::Device, cpal::SupportedStreamConfig)>
+{
     // A cpal::Host provides access to the available audio devices on the system.
     let host = cpal::default_host();
 
@@ -80,8 +67,25 @@ pub fn play(num_seconds: u64) -> anyhow::Result<()> {
     Ok(())
 }
 
+// WORKSHOP QUESTION
+/// Render a block of audio at a fixed frequency and amplitude
+pub fn render(num_samples: usize, channels: usize, sample_rate: usize) -> Vec<f32> {
+    let mut engine = AudioEngine::new(sample_rate as u32, channels as u16);
+
+    engine.set_freq(440.);
+    engine.set_amp(0.7);
+
+    let mut buffer = vec![0.; channels * num_samples];
+    engine.render(&mut buffer);
+
+    buffer
+}
+
+// WORKSHOP QUESTION
+/// pauses the thread for N seconds
+/// if N==0 it loops forever.
 fn wait(num_seconds: u64) {
-    let sleep = |secs| std::thread::sleep(std::time::Duration::from_secs(secs));
+    let sleep = |s| std::thread::sleep(std::time::Duration::from_secs(s));
 
     if num_seconds == 0 {
         loop {

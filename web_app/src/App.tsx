@@ -1,25 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
-import init, { play } from '../../audio_engine/pkg';
+import StandaloneEngine from './StandaloneEngine';
+import WebBasedEngine from './WebBasedEngine';
 
-const App: React.FC = () => {
-  const [audioEngine, setAudioEngine] = useState<any>();
-  const [audioHandle, setAudioHandle] = useState<any>();
-
-  useEffect(() => {
-    init()
-      .catch(console.error)
-      .then(() => setAudioEngine({ play }));
-  }, []);
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={() => setAudioHandle(audioEngine.play())}> Play! </button>
-        <button onClick={() => audioHandle.free()}> Stop! </button>
-      </header>
-    </div>
-  );
-};
+const App: React.FC = () => (
+  <div className="App">
+    <StandaloneEngine />
+  </div>
+);
 
 export default App;
