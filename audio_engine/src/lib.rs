@@ -3,4 +3,4 @@
 #![allow(unused_mut)]
 
 pub mod engine;
-pub mod cmd;
+pub mod stream;

@@ -5,7 +5,7 @@ use structopt::StructOpt;
     name = "audio-engine",
     about = "Audio Engine core CLI to quickly test the engine"
 )]
-enum App {
+enum Commands {
     /// Run the audio engine for a given amount of seconds, 0s play forever
     Play {
         /// Amount of seconds to play
@@ -24,9 +24,9 @@ enum App {
 // implicitly convertible from anything that implements
 // std::error::Error, which should cover many cases.
 fn main() -> anyhow::Result<()> {
-    match App::from_args() {
-        App::Play { seconds } => audio_engine::cmd::play(seconds),
-        App::Render => {
+    match Commands::from_args() {
+        Commands::Play { seconds } => audio_engine::stream::play(seconds),
+        Commands::Render => {
             todo!(
                 r#"
 params:
@@ -36,7 +36,7 @@ params:
             "#
             )
         }
-        App::Info => {
+        Commands::Info => {
             todo!("print the audio device config")
         }
     }
