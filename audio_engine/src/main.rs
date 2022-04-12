@@ -6,14 +6,13 @@ use structopt::StructOpt;
     name = "audio-engine",
     about = "Audio Engine core CLI to quickly test the engine"
 )]
-enum App {
+enum Commands {
     /// Run the audio engine for a given amount of seconds, 0s play forever
     Play {
         /// Amount of seconds to play
         #[structopt(short, long, default_value = "2")]
         seconds: u64,
     },
-    // WORKSHOP QUESTION
     /// Render a fixed amount of samples and print to terminal
     Render {
         /// Number of samples to render
@@ -26,7 +25,6 @@ enum App {
         #[structopt(long, default_value = "48000")]
         sample_rate: usize,
     },
-    // WORKSHOP QUESTION
     /// Print audio and midi configuration
     Info,
 }
@@ -37,9 +35,9 @@ enum App {
 // implicitly convertible from anything that implements
 // std::error::Error, which should cover many cases.
 fn main() -> anyhow::Result<()> {
-    match App::from_args() {
-        App::Play { seconds } => audio_engine::play(seconds),
-        App::Render {
+    match Commands::from_args() {
+        Commands::Play { seconds } => audio_engine::play(seconds),
+        Commands::Render {
             samples,
             channels,
             sample_rate,
@@ -53,7 +51,7 @@ fn main() -> anyhow::Result<()> {
             }
             Ok(())
         }
-        App::Info => {
+        Commands::Info => {
             let (device, supported_config) = audio_engine::get_audio_device_and_config()?;
             println!("Output device: {}", device.name()?);
             println!("Output config: {:?}", supported_config);

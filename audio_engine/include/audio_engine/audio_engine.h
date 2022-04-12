@@ -36,33 +36,6 @@ struct AudioEngine
 
 extern "C" {
 
-/// # Safety
-///
-/// This heap allocates, and leaks, a new AudioEngine object.
-/// It is up to the caller to call `ffi_destroy()` only once
-/// on the pointer.
-///
-/// We could also return a stack allocated AudioEngine here
-/// though we would need to expose the content of the engine
-/// since we would no longer be able to use AudioEngine as an
-/// opaque type.
-///
-/// https://github.com/rust-lang/rust/issues/66220
-///
-/// TODO: this is not used anymore since we can create on stack
-AudioEngine *ffi_create();
-
-/// # Safety
-///
-/// It is up to the caller to call this method only
-/// once and ONLY pass in a pointer that was created
-/// with `ffi_create()`.
-///
-/// TODO: Check the pointer is null after dropping,
-/// which would avoid double-free because of
-/// null pointer optimisation.
-void ffi_destroy(AudioEngine *engine);
-
 /// Prepare the AudioEngine to start rendering.
 /// Must be called before `ffi_render()`.
 void ffi_prepare(AudioEngine *engine,
@@ -75,10 +48,6 @@ void ffi_prepare(AudioEngine *engine,
 /// buffer over the specified length. To avoid branching,
 /// we are assuming that the pointer is valid here.
 void ffi_render(AudioEngine *engine, float *buffer, uint32_t buffer_size);
-
-void ffi_set_freq(AudioEngine *engine, float freq);
-
-void ffi_set_amp(AudioEngine *engine, float amp);
 
 } // extern "C"
 

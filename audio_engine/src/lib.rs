@@ -1,10 +1,12 @@
-mod bindings;
 mod engine;
 
-#[cfg(feature = "cpal")]
-mod cmd;
+#[cfg(feature = "ffi")]
+mod ffi;
 
 #[cfg(feature = "cpal")]
-pub use cmd::*;
+mod stream;
+
+#[cfg(feature = "cpal")]
+pub use stream::*;
 
 pub use engine::*;

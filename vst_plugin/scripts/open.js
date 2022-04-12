@@ -1,1 +1,0 @@
-require('./lib/project').open('AUDIO_PLUGIN_EXAMPLE');

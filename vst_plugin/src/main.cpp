@@ -40,13 +40,9 @@ public:
                                           110.f,
                                           [this] (float freq)
                                           { audio_engine::ffi_set_freq (&engine, freq); }));
-        addParameter (new FloatParameter ("amp",
-                                          "Amplitude",
-                                          0.f,
-                                          1.f,
-                                          0.7f,
-                                          [this] (float amp)
-                                          { audio_engine::ffi_set_amp (&engine, amp); }));
+        /* TODO:
+            Add the Amplitude parameter.
+        */
     }
 
     ~AudioPluginAudioProcessor() override {}
@@ -83,9 +79,9 @@ public:
 
     void deinterleaveAudioBufferInto (juce::AudioBuffer<float>& buffer)
     {
-        for (auto sample = 0; sample < bufferSize; ++sample)
-            for (auto chan = 0; chan < numChannels; ++chan)
-                *buffer.getWritePointer (chan, sample) = audioBuffer[(sample * numChannels) + chan];
+        /* TODO:
+            given an interleaved audio buffer, deinterleave the values in place.
+        */
     }
 
     using AudioProcessor::processBlock;

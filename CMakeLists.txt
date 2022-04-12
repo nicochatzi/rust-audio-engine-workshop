@@ -5,10 +5,16 @@ project(AUDIO_PLUGIN_EXAMPLE
     LANGUAGES CXX
 )
 
+enable_testing()
+
 add_subdirectory(vst_plugin/lib/juce)
 add_subdirectory(vst_plugin/lib/googletest)
 add_subdirectory(audio_engine)
+include(GoogleTest)
 
+#
+# JUCE plugin CMake config
+#
 juce_add_plugin(AudioPluginExample
     PLUGIN_MANUFACTURER_CODE    Rite
     PLUGIN_CODE                 Dem0
@@ -37,5 +43,21 @@ target_link_libraries(AudioPluginExample
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags
+        # Linking to our library that was included
+        # and built with `add_subdirectory(audio_engine)`
         audio_engine_lib
 )
+
+#
+# Create test binary and register it with CTest
+#
+add_executable(RustIntegration
+    vst_plugin/tests/integration.cpp
+)
+
+target_link_libraries(RustIntegration
+    gtest_main
+    audio_engine_lib
+)
+
+add_test(RustIntegration RustIntegration)

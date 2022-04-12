@@ -67,7 +67,6 @@ pub fn play(num_seconds: u64) -> anyhow::Result<()> {
     Ok(())
 }
 
-// WORKSHOP QUESTION
 /// Render a block of audio at a fixed frequency and amplitude
 pub fn render(num_samples: usize, channels: usize, sample_rate: usize) -> Vec<f32> {
     let mut engine = AudioEngine::new(sample_rate as u32, channels as u16);
@@ -81,7 +80,6 @@ pub fn render(num_samples: usize, channels: usize, sample_rate: usize) -> Vec<f3
     buffer
 }
 
-// WORKSHOP QUESTION
 /// pauses the thread for N seconds
 /// if N==0 it loops forever.
 fn wait(num_seconds: u64) {

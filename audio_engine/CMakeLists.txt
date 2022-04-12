@@ -32,7 +32,7 @@ endif()
 
 # When building using this CMakeLists, we are assuming
 # the consumer is on a desktop platform and is supplying
-# the audio host.
+# the audio host so we don't have the cpal feature.
 set(CARGO_BUILD_FLAGS --lib --no-default-features --features ffi)
 
 # Some environments might not have cargo in their PATH

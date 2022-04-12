@@ -65,7 +65,6 @@ mod tests {
     use super::*;
 
     #[test]
-    // WORKSHOP QUESTION
     fn defaults_to_rendering_silence() {
         let mut engine = AudioEngine::new(100, 1);
         let mut buffer = vec![1.; 64];
@@ -90,7 +89,6 @@ mod tests {
         amp
     }
 
-    // WORKSHOP QUESTION
     fn expect_rms(buffer: &[f32], expected_rms: f32) {
         const ERROR: f32 = 0.001;
         let actual_rms = rms(&buffer);
@@ -112,12 +110,10 @@ mod tests {
         let mut engine = AudioEngine::new(SAMPLE_RATE as u32, 1);
         engine.set_freq(1.);
 
-        // WORKSHOP QUESTION
         engine.set_amp(0.);
         engine.render(&mut buffer);
         assert!(buffer.iter().all(|x| *x == 0.));
 
-        // WORKSHOP QUESTION
         const AMP: f32 = 1.;
         engine.set_amp(AMP);
         engine.render(&mut buffer);
