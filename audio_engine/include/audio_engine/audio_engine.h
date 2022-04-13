@@ -49,6 +49,10 @@ void ffi_prepare(AudioEngine *engine,
 /// we are assuming that the pointer is valid here.
 void ffi_render(AudioEngine *engine, float *buffer, uint32_t buffer_size);
 
+void ffi_set_freq(AudioEngine *engine, float freq);
+
+void ffi_set_amp(AudioEngine *engine, float amp);
+
 } // extern "C"
 
 } // namespace audio_engine

@@ -25,22 +25,27 @@ pub extern "C" fn ffi_prepare(
 /// we are assuming that the pointer is valid here.
 #[no_mangle]
 pub unsafe extern "C" fn ffi_render(
-    engine: &mut AudioEngine,
+    engine: Option<&mut AudioEngine>,
     buffer: *mut f32,
     buffer_size: u32,
 ) {
-    todo!(r"
-        Given an AudioEngine reference, we want to render some audio
-        directly into the buffer passed in this function.
+    let mut slice = core::slice::from_raw_parts_mut(buffer, buffer_size as usize);
 
-        hint:
-            we want to create a Rust 'slice' from the raw *mut f32 pointer.
-            https://doc.rust-lang.org/core/slice/index.html#functions
-    ");
+    if let Some(engine) = engine {
+        engine.render(slice);
+    }
 }
 
-// TODO:
-//     Write the C FFI function to set the frequency on an AudioEngine instance
+#[no_mangle]
+pub extern "C" fn ffi_set_freq(engine: Option<&mut AudioEngine>, freq: f32) {
+    if let Some(engine) = engine {
+        engine.set_freq(freq);
+    }
+}
 
-// TODO:
-//     Write the C FFI function to set the amplitude on an AudioEngine instance
+#[no_mangle]
+pub extern "C" fn ffi_set_amp(engine: Option<&mut AudioEngine>, amp: f32) {
+    if let Some(engine) = engine {
+        engine.set_amp(amp);
+    }
+}
