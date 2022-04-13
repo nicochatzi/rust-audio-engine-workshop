@@ -14,7 +14,7 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}
         ${AUDIO_ENGINE_HEADERS}
 )
 
-if(CMAKE_BUILD_TYPE EQUAL Debug)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(TARGET_DIR debug)
     set(CARGO_BUILD_CONFIG)
 else()
