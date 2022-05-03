@@ -1,0 +1,23 @@
+{
+  "name": "web_app",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build:wasm": "cd ../audio_engine && wasm-pack build --target web -- --no-default-features --features wasm",
+    "build:ui": "tsc && vite build",
+    "build": "npm run build:wasm && npm run build:ui",
+    "preview": "vite preview",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^1.3.0",
+    "typescript": "^4.6.3",
+    "vite": "^2.9.7"
+  }
+}
